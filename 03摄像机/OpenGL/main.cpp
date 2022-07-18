@@ -1,20 +1,194 @@
+#include"Base.h"
+#include"Shader.h"
+#include"ffImage.h"
+#include"Camera.h"
 
-//http://t.zoukankan.com/lyonwu-p-14829694.html
 
-//注意要在包含GLFW的头文件之前包含了GLAD的头文件!
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
-using namespace std;
+/*课程目标：建设一个Camera类，并且实现移动
+* 1 建设类变量，并且初始化计算
+* 2 接受系统键盘消息并且移动摄像机
+*/
 
-//当用户改变窗口的大小的时候，视口也应该被调整，需要一个回调函数
-void framebuffer_size_callback(GLFWwindow * window,int width,int height);
-//声明一个函数用来检测特定的键是否被按下
-void processInput(GLFWwindow * window);
 
-int main(){
+unsigned int VBO = 0;
+
+unsigned int VAO = 0;
+
+unsigned int _texture = 0;
+
+
+ffImage*    _pImage = NULL;
+
+Shader          _shader;
+
+Camera          _camera;
+
+glm::mat4 _projMatrix(1.0f);
+int       _width = 800;
+int       _height = 600;
+
+void rend()
+{
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+
+    glm::vec3 modelVecs[] = {
+    glm::vec3(0.0f,  0.0f,  0.0f),
+    glm::vec3(2.0f,  5.0f, -15.0f),
+    glm::vec3(-1.5f, -2.2f, -2.5f),
+    glm::vec3(-3.8f, -2.0f, -12.3f),
+    glm::vec3(2.4f, -0.4f, -3.5f),
+    glm::vec3(-1.7f,  3.0f, -7.5f),
+    glm::vec3(1.3f, -2.0f, -2.5f),
+    glm::vec3(1.5f,  2.0f, -2.5f),
+    glm::vec3(1.5f,  0.2f, -1.5f),
+    glm::vec3(-1.3f,  1.0f, -1.5f)
+    };
+
+    _camera.update();
+    _projMatrix = glm::perspective(glm::radians(45.0f), (float)_width / (float)_height, 0.1f, 100.0f);
+
+    glBindTexture(GL_TEXTURE_2D, _texture);
+
+    for (int i = 0; i < 10; i++)
+    {
+        glm::mat4 _modelMatrix(1.0f);
+        _modelMatrix = glm::translate(_modelMatrix, modelVecs[i]);
+        _modelMatrix = glm::rotate(_modelMatrix, glm::radians((float)glfwGetTime() * (i+1) * 10), glm::vec3(0.0f, 1.0f, 0.0f));
+
+        _shader.start();
+        _shader.setMatrix("_modelMatrix", _modelMatrix);
+        _shader.setMatrix("_viewMatrix", _camera.getMatrix());
+        _shader.setMatrix("_projMatrix", _projMatrix);
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        _shader.end();
+    }
+   
+}
+
+void initModel()
+{
+    float vertices[] = {
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    };
+
+
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(sizeof(float) * 3));
+
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void initTexture()
+{
+    _pImage = ffImage::readFromFile("/Users/jason/Desktop/LearnOpenGL/res/rgba.jpg");
+
+    glGenTextures(1, &_texture);
+    glBindTexture(GL_TEXTURE_2D, _texture);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _pImage->getWidth(), _pImage->getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, _pImage->getData());
+}
     
-    //初始化GLFW
+void initShader(const char* _vertexPath, const char* _fragPath)
+{
+    _shader.initShader(_vertexPath, _fragPath);
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
+void processInput(GLFWwindow* window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    {
+        _camera.move(CAMERA_MOVE::MOVE_FRONT);
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        _camera.move(CAMERA_MOVE::MOVE_BACK);
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        _camera.move(CAMERA_MOVE::MOVE_LEFT);
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    {
+        _camera.move(CAMERA_MOVE::MOVE_RIGHT);
+    }
+}
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    _camera.onMouseMove(xpos, ypos);
+}
+
+
+int main()
+{
+    //初始化GL上下文环境
     glfwInit();
     
     //将OpenGL主版本号(Major)和次版本号(Minor)都设为3
@@ -26,57 +200,47 @@ int main(){
     
     //如果是macOS系统，则需要下面这行代码才能让配置起作用
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    
-    //创建一个窗口对象
-    GLFWwindow * window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
-    if (window == NULL){
-        cout << "Failed to create GLFW window" << endl;
+
+
+    GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL Core", NULL, NULL);
+    if (window == NULL)
+    {
+        std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return -1;
     }
-    //通知GLFW将我们窗口的上下文设置为当前线程的主上下文
     glfwMakeContextCurrent(window);
-    
-    //GLAD是用来管理OpenGL的函数指针的，在调用任何OpenGL的函数之前我们需要初始化GLAD
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
-        cout << "Failed to initialize GLAD" << endl;
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-    
-    //注册定义好的回调函数，告诉GLFW每当窗口调整大小的时候调用这个函数
+
+    glViewport(0, 0, _width, _height);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    
-    //渲染循环(Render Loop)
-    while (!glfwWindowShouldClose(window)) {
-        
-        //检测特定的键是否被按下，并在每一帧做出处理
+
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetCursorPosCallback(window, mouse_callback);
+
+
+
+    _camera.lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    _camera.setSpeed(0.01f);
+
+    initModel();
+    initTexture();
+    initShader("/Users/jason/Desktop/LearnOpenGL/03摄像机/OpenGL/vertexShader.glsl", "/Users/jason/Desktop/LearnOpenGL/03摄像机/OpenGL/fragmentShader.glsl");
+
+    while (!glfwWindowShouldClose(window))
+    {
         processInput(window);
-        
-        //glClearColor函数是一个状态设置函数，用来设置清空屏幕所用的颜色
-        glClearColor(0.2f,0.3f,0.3f,1.0f);
-        //glClear函数是一个状态使用函数，它使用当前的状态来用指定颜色清空屏幕
-        glClear(GL_COLOR_BUFFER_BIT);
-        
-        //glfwSwapBuffers函数会交换颜色缓冲
+        rend();
+
         glfwSwapBuffers(window);
-        //glfwPollEvents函数检查有没有触发什么事件
         glfwPollEvents();
     }
-    
-    //释放之前分配的所有资源
     glfwTerminate();
-    
     return 0;
-}
-
-void framebuffer_size_callback(GLFWwindow * window,int width,int height){
-    //glViewport函数前两个参数控制窗口左下角的位置，第三个和第四个参数控制渲染窗口的宽度和高度
-    glViewport(0,0,width,height);
-}
-
-void processInput(GLFWwindow * window){
-    //检查用户是否按下了返回键(Esc)（如果没有按下，glfwGetKey将会返回GLFW_RELEASE，按下则为GLFW_PRESS)
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-        glfwSetWindowShouldClose(window, true);
-    }
 }

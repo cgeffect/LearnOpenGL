@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9673C07C288502E50074E269 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9673C073288502E50074E269 /* Shader.cpp */; };
+		9673C07D288502E50074E269 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9673C074288502E50074E269 /* Camera.cpp */; };
+		9673C07F288502E50074E269 /* ffImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9673C076288502E50074E269 /* ffImage.cpp */; };
 		96AC9D7027EC560600E6127B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96AC9D6F27EC560600E6127B /* main.cpp */; };
 		96AC9D7827EC56DF00E6127B /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AC9D7727EC56DF00E6127B /* libglfw.3.3.dylib */; };
 		96AC9D7D27EC582900E6127B /* libvulkan.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 96AC9D7B27EC573A00E6127B /* libvulkan.1.dylib */; };
@@ -37,6 +40,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9673C071288502E50074E269 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		9673C072288502E50074E269 /* vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = vertexShader.glsl; sourceTree = "<group>"; };
+		9673C073288502E50074E269 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
+		9673C074288502E50074E269 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		9673C076288502E50074E269 /* ffImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ffImage.cpp; sourceTree = "<group>"; };
+		9673C077288502E50074E269 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
+		9673C078288502E50074E269 /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
+		9673C079288502E50074E269 /* ffImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ffImage.h; sourceTree = "<group>"; };
+		9673C07A288502E50074E269 /* fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fragmentShader.glsl; sourceTree = "<group>"; };
+		9673C07B288502E50074E269 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		96AC9D6C27EC560600E6127B /* 03摄像机 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "03摄像机"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96AC9D6F27EC560600E6127B /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		96AC9D7727EC56DF00E6127B /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../usr/local/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
@@ -81,8 +94,18 @@
 		96AC9D6E27EC560600E6127B /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
-				96AC9D6F27EC560600E6127B /* main.cpp */,
+				9673C078288502E50074E269 /* Base.h */,
+				9673C074288502E50074E269 /* Camera.cpp */,
+				9673C071288502E50074E269 /* Camera.h */,
+				9673C076288502E50074E269 /* ffImage.cpp */,
+				9673C079288502E50074E269 /* ffImage.h */,
+				9673C07A288502E50074E269 /* fragmentShader.glsl */,
 				96EEA3F12882A5A000EACF99 /* glad.c */,
+				96AC9D6F27EC560600E6127B /* main.cpp */,
+				9673C073288502E50074E269 /* Shader.cpp */,
+				9673C07B288502E50074E269 /* Shader.h */,
+				9673C077288502E50074E269 /* stb_image.h */,
+				9673C072288502E50074E269 /* vertexShader.glsl */,
 			);
 			path = OpenGL;
 			sourceTree = "<group>";
@@ -156,8 +179,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9673C07D288502E50074E269 /* Camera.cpp in Sources */,
 				96AC9D7027EC560600E6127B /* main.cpp in Sources */,
+				9673C07C288502E50074E269 /* Shader.cpp in Sources */,
 				96EEA3F22882A5A000EACF99 /* glad.c in Sources */,
+				9673C07F288502E50074E269 /* ffImage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,7 +19,6 @@
 		96AC9D8327EC59DC00E6127B /* libglfw.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AC9D8127EC59DC00E6127B /* libglfw.3.dylib */; };
 		96AC9D8427EC59E200E6127B /* libglfw.3.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 96AC9D8127EC59DC00E6127B /* libglfw.3.dylib */; };
 		96AC9D8527EC59E600E6127B /* libglfw.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 96AC9D8027EC59DC00E6127B /* libglfw.dylib */; };
-		96BF16C728899E03001032E6 /* openGLFW.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96BF16C628899E03001032E6 /* openGLFW.cpp */; };
 		96EEA3F22882A5A000EACF99 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 96EEA3F12882A5A000EACF99 /* glad.c */; };
 /* End PBXBuildFile section */
 
@@ -58,7 +57,6 @@
 		96AC9D7B27EC573A00E6127B /* libvulkan.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvulkan.1.dylib; path = ../../VulkanSDK/1.3.204.1/macOS/lib/libvulkan.1.dylib; sourceTree = "<group>"; };
 		96AC9D8027EC59DC00E6127B /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.dylib; path = ../../../../usr/local/lib/libglfw.dylib; sourceTree = "<group>"; };
 		96AC9D8127EC59DC00E6127B /* libglfw.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.dylib; path = ../../../../usr/local/lib/libglfw.3.dylib; sourceTree = "<group>"; };
-		96BF16C628899E03001032E6 /* openGLFW.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = openGLFW.cpp; sourceTree = "<group>"; };
 		96E15BB9288936B8008E082B /* fsunShader.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = fsunShader.glsl; sourceTree = "<group>"; };
 		96E15BBA288936B8008E082B /* vsunShader.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = vsunShader.glsl; sourceTree = "<group>"; };
 		96EEA3F12882A5A000EACF99 /* glad.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glad.c; sourceTree = "<group>"; };
@@ -98,7 +96,6 @@
 		96AC9D6E27EC560600E6127B /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
-				96BF16C628899E03001032E6 /* openGLFW.cpp */,
 				96E15BB9288936B8008E082B /* fsunShader.glsl */,
 				96E15BBA288936B8008E082B /* vsunShader.glsl */,
 				9673C078288502E50074E269 /* Base.h */,
@@ -189,7 +186,6 @@
 				9673C07D288502E50074E269 /* Camera.cpp in Sources */,
 				96AC9D7027EC560600E6127B /* main.cpp in Sources */,
 				9673C07C288502E50074E269 /* Shader.cpp in Sources */,
-				96BF16C728899E03001032E6 /* openGLFW.cpp in Sources */,
 				96EEA3F22882A5A000EACF99 /* glad.c in Sources */,
 				9673C07F288502E50074E269 /* ffImage.cpp in Sources */,
 			);
